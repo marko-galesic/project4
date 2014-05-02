@@ -1,0 +1,16 @@
+2014-04-30
+
+passing socket information from viewproxy to sessionmanager ok?
+	intent -> use socket info as id for client
+
+join will need playername and id for player (if playername is not id)
+-------
+join done separately
+
+all other things done by pinging models specific to a session
+	can the session manager be called before model
+	or should something else be done?
+
+passing the session manager in as a parameter to the view proxy
+
+
