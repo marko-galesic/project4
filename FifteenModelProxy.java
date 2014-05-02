@@ -199,10 +199,10 @@ public class FifteenModelProxy implements FifteenViewListener
 		switch(args[0].charAt(0))
 		{
 			case 'j':
-				proxy.join(null, "Marko");
+				proxy.join(null, args[0].substring(1, args[0].length()));
 				break;
 			case 'd':
-				proxy.digitButtonPressed(1);
+				proxy.digitButtonPressed(Integer.parseInt(args[0].charAt(1) + ""));
 				break;
 			case 'n':
 				proxy.newGamePressed();
