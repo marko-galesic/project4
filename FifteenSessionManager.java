@@ -19,6 +19,7 @@ public class FifteenSessionManager implements FifteenViewListener
 {
 	private Player currentPlayer1;
 	private FifteenModel currentModel;
+	private FifteenViewProxy currentProxy;
 	
 	/*
 	 * FifteenSessionManager constructor
@@ -35,17 +36,31 @@ public class FifteenSessionManager implements FifteenViewListener
 	 * @exception IOException Thrown if an I/O error occurred.
 	 */
 	public synchronized void join(FifteenViewProxy proxy, String name) throws IOException
-	{	
+	{
 		if (currentPlayer1 == null)
 		{
-			currentPlayer1 = new Player(name);
+			// Create a new model for this Fifteen game session
 			currentModel = new FifteenModel(currentPlayer1);
+		
+			// Create a player 1 instance for this game session
+			currentPlayer1 = new Player(name);
+
+			// Notify model to send commands to the player 1's proxy
 			currentModel.addModelListener (proxy);
+		
+			// Tell the proxy to listen to the model
 			proxy.setViewListener (currentModel);
 		}
 		else
 		{
+			// Set the second player up in the model
 			currentModel.addSecondPlayer(new Player(name));
+
+			// Notify model to send commands to player 2's proxy
+			currentModel.addModelListener (proxy);
+
+			// Reset the player 1 referece; next time a request comes in, another game
+			// will start
 			currentPlayer1 = null;
 		}
 	}

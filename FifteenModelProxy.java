@@ -192,7 +192,7 @@ public class FifteenModelProxy implements FifteenViewListener
 
 	public static void main(String[] args) throws Exception
 	{
-		DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress ("localhost", 5679));
+		DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress ("localhost", Integer.parseInt(args[1])));
 
 		FifteenModelProxy proxy = new FifteenModelProxy (mailbox, new InetSocketAddress ("localhost", 5678));
 

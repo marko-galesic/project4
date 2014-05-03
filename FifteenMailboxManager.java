@@ -54,7 +54,7 @@ public class FifteenMailboxManager
 	 */
 	public void receiveMessage() throws IOException
 	{
-		DatagramPacket packet = new DatagramPacket (payload, payload.length);
+		DatagramPacket packet = new DatagramPacket (payload, payload.length);	
 		mailbox.receive (packet);
 		SocketAddress clientAddress = packet.getSocketAddress();
 		FifteenViewProxy proxy = proxyMap.get (clientAddress);

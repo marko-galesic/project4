@@ -54,7 +54,7 @@ public class FifteenViewProxy implements FifteenModelListener
 			// join message
 			case 'j':
 				name = in.readUTF();
-				System.out.println(name);
+				_viewListener.join(this, name);
 				break;
 			// digit message
 			case 'd':
