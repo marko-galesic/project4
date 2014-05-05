@@ -39,17 +39,14 @@ public class FifteenSessionManager implements FifteenViewListener
 	{
 		if (currentPlayer1 == null)
 		{
-			// Create a new model for this Fifteen game session
-			currentModel = new FifteenModel(currentPlayer1);
-		
 			// Create a player 1 instance for this game session
 			currentPlayer1 = new Player(name);
+			
+			// Create a new model for this Fifteen game session
+			currentModel = new FifteenModel(currentPlayer1);
 
 			// Notify model to send commands to the player 1's proxy
 			currentModel.addModelListener (proxy);
-		
-			// Tell the proxy to listen to the model
-			proxy.setViewListener (currentModel);
 		}
 		else
 		{
@@ -63,6 +60,9 @@ public class FifteenSessionManager implements FifteenViewListener
 			// will start
 			currentPlayer1 = null;
 		}
+		
+		// Tell the proxy to listen to the model
+		proxy.setViewListener (currentModel);
 	}
 
 	/**

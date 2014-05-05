@@ -1,3 +1,5 @@
+2014-05-05
+can we have debug statements in our code as long as we disable them with a global?
 2014-04-30
 
 passing socket information from viewproxy to sessionmanager ok?

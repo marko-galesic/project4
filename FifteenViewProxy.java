@@ -29,7 +29,6 @@ public class FifteenViewProxy implements FifteenModelListener
 	// Hidden data members
 	private DatagramSocket _mailbox;
 	private SocketAddress _player1Address;
-	private SocketAddress _player2Address;
 	private FifteenViewListener _viewListener;
 	
 	/**
@@ -54,21 +53,25 @@ public class FifteenViewProxy implements FifteenModelListener
 			// join message
 			case 'j':
 				name = in.readUTF();
+				System.out.println(_player1Address + " -> j" + name);
 				_viewListener.join(this, name);
 				break;
 			// digit message
 			case 'd':
 				d = in.readInt();
-				System.out.println(d);
+				System.out.println(_player1Address + " -> d" + d);
+				_viewListener.digitButtonPressed(d);
 				break;
 			// newgame message
 			case 'n':
-				System.out.println("newgame");
+				System.out.println(_player1Address + " -> n");
+				_viewListener.newGamePressed();
 				break;
 			// quit message
 			case 'q':
+				System.out.println(_player1Address + " -> q");
 				discard = true;
-				System.out.println("quit");
+				_viewListener.quit();
 				break;
 			default:
 				System.err.println ("Bad message");
@@ -86,16 +89,6 @@ public class FifteenViewProxy implements FifteenModelListener
 	{
 		_mailbox = mailbox;
 		_player1Address = player1Address;
-	}
-	
-	/*
-	 * Set the address for the second player
-	 *
-	 * @param player2Address the SocketAddress object representing the player 2 address
-	 */
-	public void setPlayer2Address(SocketAddress player2Address)
-	{
-		_player2Address = player2Address;
 	}
 	/**
 	 * Set the view listener object for this view proxy.
@@ -121,6 +114,7 @@ public class FifteenViewProxy implements FifteenModelListener
 		out.close();
 		byte[] payload = baos.toByteArray();
 		_mailbox.send (new DatagramPacket (payload, payload.length, _player1Address));
+		System.out.println(_player1Address + " <- i" + id);
 	}
 
 	/**
@@ -138,6 +132,7 @@ public class FifteenViewProxy implements FifteenModelListener
 		out.close();
 		byte[] payload = baos.toByteArray();
 		_mailbox.send (new DatagramPacket (payload, payload.length, _player1Address));
+		System.out.println(_player1Address + " <- n" + id + " " + playerName);
 	}
 
 	/**
@@ -152,10 +147,13 @@ public class FifteenViewProxy implements FifteenModelListener
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream out = new DataOutputStream (baos);
 		out.writeByte('d');
+		System.out.print(_player1Address + " <- d");
 		for(int b = 0; b < buttonStates.length; b++)
 		{
-			out.writeByte(buttonStates[b]); 
+			out.writeByte(buttonStates[b]);
+			System.out.print(buttonStates[b]);
 		}
+		System.out.println();
 		out.writeByte('\n');
 		out.close();
 		byte[] payload = baos.toByteArray();
@@ -172,10 +170,11 @@ public class FifteenViewProxy implements FifteenModelListener
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream out = new DataOutputStream (baos);
-		out.writeUTF("score " + id + " " + score + "\n");
+		out.writeUTF("s" + id + " " + score + "\n");
 		out.close();
 		byte[] payload = baos.toByteArray();
 		_mailbox.send (new DatagramPacket (payload, payload.length, _player1Address));
+		System.out.println(_player1Address + " <- s" + id + " " + score);
 	}
 
 	/**
@@ -192,6 +191,7 @@ public class FifteenViewProxy implements FifteenModelListener
 		out.close();
 		byte[] payload = baos.toByteArray();
 		_mailbox.send (new DatagramPacket (payload, payload.length, _player1Address));
+		System.out.println(_player1Address + " <- t" + id);
 	}
 
 	/**
@@ -208,6 +208,7 @@ public class FifteenViewProxy implements FifteenModelListener
 		out.close();
 		byte[] payload = baos.toByteArray();
 		_mailbox.send (new DatagramPacket (payload, payload.length, _player1Address));
+		System.out.println(_player1Address + " <- w" + id);
 	}
 
 	/**
@@ -221,5 +222,6 @@ public class FifteenViewProxy implements FifteenModelListener
 		out.close();
 		byte[] payload = baos.toByteArray();
 		_mailbox.send (new DatagramPacket (payload, payload.length, _player1Address));
+		System.out.println(_player1Address + " <- q");
 	}
 }

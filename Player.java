@@ -51,6 +51,14 @@ public class Player
 	public void setSum (int sum) {_sum = sum;}
 
 	/**
+	 * Add to score of player
+	 * 
+	 * @param
+	 */
+	public void addScore(int digit) {_sum += digit;} 
+	
+
+	/**
 	 * Get id of the player
 	 */
 	public int getId () {return _id;}
