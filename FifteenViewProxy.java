@@ -224,4 +224,12 @@ public class FifteenViewProxy implements FifteenModelListener
 		_mailbox.send (new DatagramPacket (payload, payload.length, _player1Address));
 		System.out.println(_player1Address + " <- q");
 	}
+
+	/**
+	 * Get the socket address of the client machine that this proxy corresponds to
+	 */
+	public SocketAddress getClientSocketAddress()
+	{
+		return _player1Address;
+	}
 }
